@@ -1,0 +1,52 @@
+name: Release Workflow
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for autochangelog to get all history
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Type Check
+        run: npm run type-check
+
+      - name: Build Library and Plugin
+        run: npm run build
+
+      - name: Generate CHANGELOG.md
+        run: npm run changelog
+
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'docs: Update CHANGELOG.md for release'
+          branch: release
+
+      - name: Publish to npmjs
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Notify Webhook
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          description: 'New version released: ${{ github.ref_name }}'
+          webhookUrl: ${{ secrets.WEBHOOK_URL }}

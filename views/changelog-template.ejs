@@ -1,0 +1,16 @@
+# Changelog
+
+<% if (release) { %>
+## <%= release.tag_name %> - <%= release.date %>
+<% if (release.body) { %>
+<%= release.body %>
+<% } %>
+<% } %>
+
+<% if (commits.length > 0) { %>
+### Commits
+
+<% commits.forEach(function(commit){ %>
+* <%= commit.message %> (<%= commit.author.name %>)
+<% }); %>
+<% } %>
