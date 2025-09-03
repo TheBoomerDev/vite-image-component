@@ -1,23 +1,71 @@
 {
-  "name": "vite-react-typescript-starter",
-  "private": true,
-  "version": "0.0.0",
+  "name": "vite-react-image",
+  "version": "1.0.0",
+  "description": "Next.js Image-like component for Vite with automatic optimization, responsive images, and SEO benefits",
   "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./vite-plugin": {
+      "import": "./dist/vite-plugin.js",
+      "require": "./dist/vite-plugin.cjs",
+      "types": "./dist/types/vite-plugin.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run build:lib && npm run build:plugin",
+    "build:lib": "vite build --config vite.lib.config.ts",
+    "build:plugin": "vite build --config vite.plugin.config.ts",
+    "type-check": "tsc --noEmit --project tsconfig.lib.json",
     "lint": "eslint .",
+    "test": "echo 'Running type checking...' && npm run type-check",
+    "test:build": "npm run build && echo 'Build completed successfully!'",
+    "prepublishOnly": "npm run test && npm run test:build",
     "preview": "vite preview"
   },
-  "dependencies": {
-    "@types/sharp": "^0.32.0",
-    "lucide-react": "^0.344.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "sharp": "^0.34.3"
+  "keywords": [
+    "vite",
+    "react",
+    "image",
+    "optimization",
+    "webp",
+    "avif",
+    "responsive",
+    "lazy-loading",
+    "seo"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/vite-react-image"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/vite-react-image/issues"
+  },
+  "homepage": "https://github.com/your-username/vite-react-image#readme",
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.32.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
+    "@types/node": "^24.3.0",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
@@ -26,10 +74,18 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.11",
     "globals": "^15.9.0",
+    "lucide-react": "^0.344.0",
     "postcss": "^8.4.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sharp": "^0.34.3",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.3.0",
     "vite": "^5.4.2"
-  }
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "sideEffects": false
 }

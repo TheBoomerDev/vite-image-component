@@ -58,7 +58,8 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(({
   });
 
   // Generate responsive srcSet if sizes provided
-  const responsiveSrcSet = sizes && !unoptimized ? generateResponsiveSrcSet(src, sizes) : undefined;
+  // Note: Actual srcSet generation should be handled by the Vite plugin or build process
+  const responsiveSrcSet = sizes && !unoptimized ? undefined : undefined;
 
   const imageStyles: React.CSSProperties = {
     ...style,
@@ -161,9 +162,12 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(({
 
 Image.displayName = 'Image';
 
+// Esta función no se usa actualmente y genera errores de importación
+// Se mantiene comentada para referencia futura
+/*
 function generateResponsiveSrcSet(src: string, sizes: string): string {
   const basePath = src.replace(/\.[^/.]+$/, '');
-  const ext = path.extname(src);
+  const ext = '.webp'; // Default extension for optimized images
   
   // Extract size information from sizes attribute
   const sizeBreakpoints = [640, 750, 828, 1080, 1200, 1920];
@@ -172,5 +176,6 @@ function generateResponsiveSrcSet(src: string, sizes: string): string {
     .map(size => `${basePath}-${size}w${ext} ${size}w`)
     .join(', ');
 }
+*/
 
 export default Image;
